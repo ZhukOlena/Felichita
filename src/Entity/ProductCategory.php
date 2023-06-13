@@ -9,6 +9,8 @@ use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\Table;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\Range;
 
 #[Entity]
 #[Table(name: 'product_categories')]
@@ -20,14 +22,32 @@ class ProductCategory
     private int $id;
 
     #[Column (name: 'title', type: 'string', length: 100 )]
+    #[Length(min: 2, max: 100)]
     private string $title;
 
     #[Column(name: 'priority', type: 'integer')]
+    #[Range(min: -100, max: 100)]
     private int $priority;
 
     public function __construct()
     {
         $this->priority = 0;
+    }
+
+    /**
+     * @return int
+     */
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTitle(): string
+    {
+        return $this->title;
     }
 
     public function setTitle(string $title): void
@@ -38,6 +58,14 @@ class ProductCategory
     public function setPriority(int $priority): void
     {
         $this->priority = $priority;
+    }
+
+    /**
+     * @return int
+     */
+    public function getPriority(): int
+    {
+        return $this->priority;
     }
 
 
