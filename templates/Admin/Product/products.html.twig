@@ -1,0 +1,51 @@
+{% extends 'Admin/html-layout.html.twig' %}
+
+{% block title %}Products ::{{ parent ()}}{% endblock %}
+{% block page_title %}Products{% endblock %}
+
+{% block page_content %}
+    <div class="pt-4 pb-4 text-end">
+        <a href="{{ path('admin_product_create') }}" class="btn btn-outline-success">Add new product</a>
+    </div>
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th class="text-center">ID</th>
+            <th class="text-center">Category</th>
+            <th class="text-center">Title</th>
+            <th class="text-center">Price</th>
+            <th class="text-center">Actions</th>
+
+        </tr>
+        </thead>
+
+        <tbody>
+        {% for product in products %}
+            <tr class="text-center">
+                <div class="row justify-content-center">
+                    <td>
+                        {{ product.id }}
+                    </td>
+
+                <td>{{ product.category.title }}</td>
+                <td>{{ product.title }}</td>
+                <td>{{ product.price }}</td>
+                </div>
+                <td>
+                    <a class="btn btn-sm btn-outline-secondary"
+                       href="{{ path('admin_product_edit', {productId: product.id}) }}">Edit</a>
+
+
+                    <a class="btn btn-sm btn-outline-danger"
+                       href="{{ path('admin_product_remove', {productId: product.id}) }}"
+                       onclick="return confirm('Are you sure want to remove product category?')"
+                    >Remove</a>
+
+                </td>
+
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+

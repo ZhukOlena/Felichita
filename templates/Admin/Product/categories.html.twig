@@ -5,15 +5,15 @@
 
 {% block page_content %}
     <div class="pt-4 pb-4 text-end">
-        <a href="{{ path('admin_product_category_create') }}" class="btn btn-success">Add new category</a>
+        <a href="{{ path('admin_product_category_create') }}" class="btn btn-outline-success">Add new category</a>
     </div>
     <table class="table table-bordered">
         <thead>
-        <tr>
-            <th class="text-center">ID</th>
-            <th class="text-center">Title</th>
-            <th class="text-center">Priority</th>
-            <th class="text-center">Actions</th>
+        <tr class="text-center">
+            <th>ID</th>
+            <th>Title</th>
+            <th>Priority</th>
+            <th>Actions</th>
         </tr>
         </thead>
 
@@ -24,9 +24,12 @@
             <td>{{ category.title }}</td>
             <td class="text-center">{{ category.priority }}</td>
             <td class="text-center">
-                <a class="btn btn-sm btn-light" href="{{ path('admin_product_category_edit', {categoryId: category.id}) }}">Edit</a>
+                <a class="btn btn-sm btn-outline-secondary"
+                   href="{{ path('admin_product_category_edit', {categoryId: category.id}) }}">Edit
+                </a>
+
                 <a
-                        class="btn btn-sm btn-danger"
+                        class="btn btn-sm btn-outline-danger"
                         href="{{ path('admin_product_category_remove', {categoryId: category.id}) }}"
                         onclick="return confirm('Are you sure want to remove product category?')"
 
