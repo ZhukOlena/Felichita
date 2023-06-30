@@ -37,7 +37,11 @@ class AddProductController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            /** @var Product  $product */
             $product = $form->getData();
+
+            $imagePath = $form->get('imagePath')->getData();
+            $product->setImagePath($imagePath);
 
             $this->entityManager->persist($product);
             $this->entityManager->flush();

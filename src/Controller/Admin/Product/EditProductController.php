@@ -28,28 +28,30 @@ class EditProductController
     }
 
     #[Route(
-        path: '/admin/products/{productId}',
+        path: '/admin/products/{productId}/edit',
         name: 'admin_product_edit',
         requirements: ['productId' => '\d+']
 
     )]
     public function __invoke(Request $request, int $productId): Response
     {
-        $category = $this->entityManager->getRepository(Product::class)->find($productId);
+        $product = $this->entityManager->getRepository(Product::class)->find($productId);
 
-        $form = $this->formFactory->create(ProductType::class, $category);
+        $form = $this->formFactory->create(ProductType::class, $product);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->entityManager->persist($category);
+            $imagePathType = $form->get('imagePath')->getData();
+
+            $this->entityManager->persist($product);
             $this->entityManager->flush();
 
             $redirectUrl = $this->urlGenerator->generate('admin_product_list');
 
             /** @var  $session */
             $session = $request->getSession();
-            $session->getFlashBag()->add('success', 'Successfuly edited product category.');
+            $session->getFlashBag()->add('success', 'Successfuly edited product.');
 
             return new RedirectResponse($redirectUrl);
         }

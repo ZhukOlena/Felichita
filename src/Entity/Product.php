@@ -11,6 +11,8 @@ use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\ManyToMany;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\Table;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Range;
@@ -57,6 +59,10 @@ class Product
 
     #[Column(name: 'priority', type: 'integer')]
     private int $priority = 0;
+
+    #[Column(name: 'image_path', type: 'string')]
+    #[NotBlank]
+    private string $imagePath;
 
     public function getId(): int
     {
@@ -141,5 +147,45 @@ class Product
     public function setPriority(int $priority): void
     {
         $this->priority = $priority;
+    }
+
+    /**
+     * @param string $imagePath
+     */
+    public function setImagePath(string|UploadedFile|null $imagePath): void
+    {
+
+        if ($imagePath instanceof UploadedFile) {
+            $name = \md5(\uniqid());
+            $extension = $imagePath->getClientOriginalExtension();
+            $fileName = $name.'.'.$extension;
+
+            $uploadsDir =__DIR__.'/../../public/uploads';
+
+
+            $imagePath->move($uploadsDir, $fileName);
+            $imagePath = '/uploads/'.$fileName;
+        }
+
+        if ($imagePath) {
+            $this->imagePath = $imagePath;
+        }
+    }
+
+    /**
+     * @return string
+     */
+    public function getImagePath(): File
+    {
+        $publicDir = __DIR__.'/../../public';
+        $imagePath = $publicDir.$this->imagePath;
+
+        $file = new File($imagePath, false);
+        return $file;
+    }
+
+    public function  getWebImagePath(): string
+    {
+        return $this->imagePath;
     }
 }

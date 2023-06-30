@@ -26,8 +26,8 @@ class ListProductController
     )]
     public function __invoke(): Response
     {
-        $products = $this->entityManager->getRepository(Product::class)
-            ->findBy([], ['priority' => 'ASC']);
+        $repository = $this->entityManager->getRepository(Product::class);
+        $products = $repository->findBy([], ['priority' => 'ASC']);
 
         $content = $this->twig->render('Admin/Product/products.html.twig', [
             'products' => $products
