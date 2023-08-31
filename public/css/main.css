@@ -1,0 +1,12 @@
+.product-category {
+}
+
+.menu-categories {
+    list-style-type: none;
+}
+
+.menu-categories li {
+    front-size: 1.5em;
+    text-transform: uppercase;
+    padding: 5px 0 ;
+}
